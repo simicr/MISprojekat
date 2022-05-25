@@ -25,20 +25,20 @@ public class UclanjivanjeForma extends Application {
     private ProdavacForma pf;
     private DodavanjeAutomobilaForma daf;
     // Kontrole
-    private KorisnikKontrola kk;
-    private AutomobilKontrola ak;
+    private KorisnikKontrola kk = new KorisnikKontrola();
+    private AutomobilKontrola ak = new AutomobilKontrola();
     //info
     private EModel izabran;
     // Elementi
-    private GridPane gp;
-    private Label ime;
-    private Label prezime;
-    private Label jmbg;
-    private Label username;
-    private Label brojTelefona;
-    private TextField[] unos;
-    private Button model;
-    private Button sacuvajDugme;
+    private GridPane gp = new GridPane();
+    private Label ime = new Label("Ime");
+    private Label prezime = new Label("Prezime");
+    private Label jmbg = new Label("JMBG");
+    private Label username = new Label("Username");
+    private Label brojTelefona = new Label("Broj telefona");
+    private TextField[] unos = new TextField[6];
+    private Button model = new Button("MODEL");
+    private Button sacuvajDugme = new Button("SACUVAJ");;
 
 
 
@@ -49,28 +49,14 @@ public class UclanjivanjeForma extends Application {
     public UclanjivanjeForma(ProdavacForma odakle){
         super();
         pf = odakle;
-
-        kk = new KorisnikKontrola();
-        ak = new AutomobilKontrola();
-
-        gp = new GridPane();
-        ime = new Label("Ime");
-        prezime = new Label("Prezime");
-        jmbg = new Label("JMBG");
-        brojTelefona = new Label("Broj telefona");
-        username = new Label("Username");
-        unos = new TextField[6];
         for(int i = 0; i < 6; i++){
             unos[i] = new TextField();
         }
-
-        model = new Button("MODEL");
         model.setOnAction(e ->
         {
             EModel m = dodaj();
             izabran = m;
         });
-        sacuvajDugme = new Button("SACUVAJ");
     }
     public TextField getModelTF() {
         return unos[5];
