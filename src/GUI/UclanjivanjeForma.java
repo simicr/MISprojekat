@@ -28,7 +28,6 @@ public class UclanjivanjeForma extends Application {
     private KorisnikKontrola kk;
     private AutomobilKontrola ak;
     //info
-    private List<EModel> sacuvani;
     private EModel izabran;
     // Elementi
     private GridPane gp;
@@ -64,15 +63,14 @@ public class UclanjivanjeForma extends Application {
         for(int i = 0; i < 6; i++){
             unos[i] = new TextField();
         }
+
         model = new Button("MODEL");
         model.setOnAction(e ->
         {
-            EModel m = dodajAutomobil();
-            sacuvani.add(m);
+            EModel m = dodaj();
+            izabran = m;
         });
-
         sacuvajDugme = new Button("SACUVAJ");
-        sacuvani = new ArrayList<>();
     }
     public TextField getModelTF() {
         return unos[5];
@@ -84,7 +82,7 @@ public class UclanjivanjeForma extends Application {
         sacuvajDugme.setOnAction(e -> sacuvaj(primaryStage) );
         primaryStage.setScene(scena);
         primaryStage.setTitle("Uclanjivanje korisnika");
-        primaryStage.show();
+        primaryStage.showAndWait();
     }
     public void generisiGui(){
         gp.add(ime, 0, 0);
@@ -108,11 +106,8 @@ public class UclanjivanjeForma extends Application {
         }
         EKorisnik k = new EKorisnik(unos[0].getText(), unos[1].getText(), unos[2].getText(), unos[4].getText(), unos[3].getText());
         boolean korisnikDodat = kk.sacuvajKorisnika(k);
-        boolean automobilDodat = true;
+        boolean automobilDodat =  ak.sacuvajAutomobil(new EAutomobil(izabran, k));
 
-        for(EModel m: sacuvani) {
-            automobilDodat = automobilDodat && ak.sacuvajAutomobil(new EAutomobil(m, k));
-        }
         if(korisnikDodat && automobilDodat){
             new Alert(Alert.AlertType.INFORMATION, "Korisnik je uspesno sacuvan").showAndWait();
         } else {
@@ -121,7 +116,7 @@ public class UclanjivanjeForma extends Application {
         pf.generisiKorisnike();
         primaryStage.close();
     }
-    public EModel dodajAutomobil() {
+    public EModel dodaj() {
         if (daf == null){
             daf = new DodavanjeAutomobilaForma(this);
         }
