@@ -1,24 +1,34 @@
 package GUI;
 
+import Entiteti.EAutomobil;
 import Entiteti.EKorisnik;
 import Entiteti.EModel;
+import Kontrola.AutomobilKontrola;
 import Kontrola.KorisnikKontrola;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class UclanjivanjeForma extends Application {
 
     // Forme
     private ProdavacForma pf;
+    private DodavanjeAutomobilaForma daf;
     // Kontrole
     private KorisnikKontrola kk;
+    private AutomobilKontrola ak;
     //info
+    private List<EModel> sacuvani;
     private EModel izabran;
     // Elementi
     private GridPane gp;
@@ -31,19 +41,19 @@ public class UclanjivanjeForma extends Application {
     private Button model;
     private Button sacuvajDugme;
 
+
+
     public static void main(String[] args) {
         launch(args);
     }
 
-    public TextField getModelTF() {
-        return unos[5];
-    }
-    public void setIzabran(EModel m){
-        this.izabran = m;
-    }
     public UclanjivanjeForma(ProdavacForma odakle){
+        super();
         pf = odakle;
+
         kk = new KorisnikKontrola();
+        ak = new AutomobilKontrola();
+
         gp = new GridPane();
         ime = new Label("Ime");
         prezime = new Label("Prezime");
@@ -55,13 +65,22 @@ public class UclanjivanjeForma extends Application {
             unos[i] = new TextField();
         }
         model = new Button("MODEL");
-        model.setOnAction(e -> dodajAutomobil());
+        model.setOnAction(e ->
+        {
+            EModel m = dodajAutomobil();
+            sacuvani.add(m);
+        });
+
         sacuvajDugme = new Button("SACUVAJ");
+        sacuvani = new ArrayList<>();
+    }
+    public TextField getModelTF() {
+        return unos[5];
     }
     @Override
     public void start(Stage primaryStage) {
         generisiGui();
-        Scene scena = new Scene(gp);
+        Scene scena = new Scene(gp, 400, 300);
         sacuvajDugme.setOnAction(e -> sacuvaj(primaryStage) );
         primaryStage.setScene(scena);
         primaryStage.setTitle("Uclanjivanje korisnika");
@@ -81,13 +100,32 @@ public class UclanjivanjeForma extends Application {
         unos[5].setEditable(false);
     }
     public void sacuvaj(Stage primaryStage) {
+
+        boolean nepravilno = Arrays.stream(unos).anyMatch(x ->x.getText().equals(""));
+        if(nepravilno) {
+            new Alert(Alert.AlertType.ERROR, "Nisu unesena sva polja").showAndWait();
+            return;
+        }
         EKorisnik k = new EKorisnik(unos[0].getText(), unos[1].getText(), unos[2].getText(), unos[4].getText(), unos[3].getText());
-        kk.sacuvajKorisnika(k);
+        boolean korisnikDodat = kk.sacuvajKorisnika(k);
+        boolean automobilDodat = true;
+
+        for(EModel m: sacuvani) {
+            automobilDodat = automobilDodat && ak.sacuvajAutomobil(new EAutomobil(m, k));
+        }
+        if(korisnikDodat && automobilDodat){
+            new Alert(Alert.AlertType.INFORMATION, "Korisnik je uspesno sacuvan").showAndWait();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Nije sacuvan novi korisnik").showAndWait();
+        }
         pf.generisiKorisnike();
         primaryStage.close();
     }
-    public void dodajAutomobil() {
-        DodavanjeAutomobilaForma daf = new DodavanjeAutomobilaForma(this);
+    public EModel dodajAutomobil() {
+        if (daf == null){
+            daf = new DodavanjeAutomobilaForma(this);
+        }
         daf.start(new Stage());
+        return daf.getIzabran();
     }
 }

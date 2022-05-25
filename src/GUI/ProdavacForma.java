@@ -5,6 +5,7 @@ import Kontrola.KorisnikKontrola;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -16,8 +17,10 @@ import java.util.List;
 
 public class ProdavacForma extends Application {
 
+    private List<EKorisnik> info;
     // Druge forme
     private UclanjivanjeForma uf;
+    private DodavanjeAutomobilaForma df;
     // Kontrole
     private KorisnikKontrola kk;
     // Elementi GUIa
@@ -43,6 +46,7 @@ public class ProdavacForma extends Application {
         this.obrisi = new Button("OBRISI\nAUTO");
         this.dodajA = new Button("DODAJ\nAUTO");
         this.dodajK.setOnAction(e -> uclaniKorisnika());
+        this.dodajA.setOnAction( e -> dodajAutomobil());
     }
 
 
@@ -70,15 +74,24 @@ public class ProdavacForma extends Application {
     }
     public void generisiKorisnike(){
         korisnici = new ListView();
-        List<EKorisnik> info = kk.pronadjiSveKorisnike();
-        for (EKorisnik e:info)
-            korisnici.getItems().add(e);
+        info = kk.pronadjiSveKorisnike();
+        info.stream().forEach(x -> korisnici.getItems().add(x));
         bp.setCenter(korisnici);
     }
 
     public void uclaniKorisnika(){
         uf = new UclanjivanjeForma(this);
         uf.start(new Stage());
+    }
+
+    public void dodajAutomobil() {
+        int i = korisnici.getSelectionModel().getSelectedIndex();
+        if( i == -1){
+            new Alert(Alert.AlertType.ERROR,"Nije izabran korisnik").showAndWait();
+            return;
+        }
+        df = new DodavanjeAutomobilaForma(this, info.get(i));
+        df.start(new Stage());
     }
 
 }

@@ -1,9 +1,12 @@
 package GUI;
 
+import Entiteti.EAutomobil;
+import Entiteti.EKorisnik;
 import Entiteti.EModel;
 import Kontrola.AutomobilKontrola;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DodavanjeAutomobilaForma extends Application {
+    private  EKorisnik korisnik;
     // info
     private List<EModel> sviModeli;
     // Forma
@@ -22,12 +26,13 @@ public class DodavanjeAutomobilaForma extends Application {
     // Kontrola
     private AutomobilKontrola ak;
     // Elementi
+    private Stage primaryStage;
     private BorderPane bp;
     private Button sacuvajDugme;
     private ListView modeli;
+    private EModel izabran;
 
-
-    public DodavanjeAutomobilaForma(UclanjivanjeForma uf){
+    private DodavanjeAutomobilaForma(){
         super();
         this.uf = uf;
         this.sacuvajDugme = new Button("IZABERI");
@@ -36,15 +41,30 @@ public class DodavanjeAutomobilaForma extends Application {
         this.modeli = new ListView();
         this.sviModeli = new ArrayList<>();
     }
+    public DodavanjeAutomobilaForma(UclanjivanjeForma uf){
+        this();
+        this.uf = uf;
+    }
+
+    public DodavanjeAutomobilaForma(ProdavacForma pf, EKorisnik korisnik) {
+        this();
+        this.pf = pf;
+        this.korisnik = korisnik;
+    }
     public static void main(String[] args) {
         launch(args);
     }
 
+    public EModel getIzabran() {
+        return izabran;
+    }
+
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         generisiModele();
         bp.setBottom(sacuvajDugme);
-        sacuvajDugme.setOnAction(e -> sacuvaj(primaryStage));
+        sacuvajDugme.setOnAction(e -> dodaj());
         Scene scene = new Scene(bp);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Biranje modela");
@@ -58,10 +78,27 @@ public class DodavanjeAutomobilaForma extends Application {
         bp.setCenter(modeli);
     }
 
-    public void sacuvaj(Stage primaryStage) {
+    public void dodaj() {
         int i = modeli.getSelectionModel().getSelectedIndex();
-        uf.setIzabran(sviModeli.get(i - 1));
-        uf.getModelTF().setText(sviModeli.get(i - 1).toString());
+
+        if (i == -1){
+            new Alert(Alert.AlertType.ERROR, "Potrebno je izabrati model").showAndWait();
+            return;
+        }
+
+        if( uf != null) {
+            uf.getModelTF().setText(uf.getModelTF().getText() + "," + sviModeli.get(i).toString());
+        } else if (pf != null){
+            EAutomobil a = new EAutomobil(sviModeli.get(i), korisnik);
+            boolean dodato = ak.sacuvajAutomobil(a);
+            if(!dodato){
+                new Alert(Alert.AlertType.ERROR,"Nije sacuvan automobil").showAndWait();
+            } else {
+                new Alert(Alert.AlertType.INFORMATION,"Uspesno sacuvan automobil").showAndWait();
+            }
+        }
+
+        izabran = sviModeli.get(i);
         primaryStage.close();
     }
 }

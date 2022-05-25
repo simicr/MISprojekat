@@ -14,7 +14,6 @@ public class KorisnikKontrola {
         String linija;
         while ((linija = br.readLine()) != null) {
             String[] tokeni = linija.split(",");
-            System.out.println(linija);
             korisnici.add(new EKorisnik(tokeni[1], tokeni[2], tokeni[3], tokeni[4],tokeni[5]));
         }
         br.close();
@@ -23,15 +22,15 @@ public class KorisnikKontrola {
         }
         return korisnici;
     }
-    public void sacuvajKorisnika(EKorisnik k){
+    public boolean sacuvajKorisnika(EKorisnik k){
         try {
-            List<EKorisnik> korisnici = pronadjiSveKorisnike();
-            PrintWriter pw = new PrintWriter(new FileWriter("src/res/korisnici.txt",false), true);
+            PrintWriter pw = new PrintWriter(new FileWriter("src/res/korisnici.txt",true), true);
             pw.println(k);
-            korisnici.stream().forEach(pw::println);
             pw.close();
         } catch (IOException e){
             e.printStackTrace();
+            return false;
         }
+        return  true;
     }
 }
