@@ -8,6 +8,15 @@ public class EUsluga {
     private double cena;
     private double trajanje;
     private int id;
+
+    public EUsluga(String naziv, String opis, double cena, double trajanje) {
+        this.naziv = naziv;
+        this.opis = opis;
+        this.cena = cena;
+        this.trajanje = trajanje;
+        this.id = hashCode();
+    }
+
     public String getNaziv() {
         return naziv;
     }

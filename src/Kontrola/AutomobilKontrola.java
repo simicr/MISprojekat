@@ -1,6 +1,7 @@
 package Kontrola;
 
 import Entiteti.EAutomobil;
+import Entiteti.EKorisnik;
 import Entiteti.EModel;
 
 import java.io.*;
@@ -37,4 +38,51 @@ public class AutomobilKontrola {
         }
         return true;
     }
+
+    public List<EAutomobil> vratiSveAutomobile(EKorisnik korisnik) {
+        List<EAutomobil> automobili = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("res/automobili.txt"));
+            String linija;
+            while ((linija = br.readLine()) != null) {
+                String[] tokeni = linija.split(",");
+                if (Integer.parseInt(tokeni[2]) == korisnik.getId()) {
+
+                    EModel model = nadjiModel(Integer.parseInt(tokeni[1]));
+
+                    automobili.add(new EAutomobil(model,korisnik));
+
+                }
+            }
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return automobili;
+    }
+
+    private EModel nadjiModel(int idModela) {
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("res/model.txt"));
+            String linija;
+            while ((linija = br.readLine()) != null) {
+                String[] tokeni = linija.split(",");
+
+                if (idModela == Integer.parseInt(tokeni[0])) {
+                    EModel model = new EModel(tokeni[1],tokeni[2],Integer.parseInt(tokeni[3]));
+
+                    return model;
+                }
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
