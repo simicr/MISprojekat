@@ -1,6 +1,8 @@
 package Kontrola;
 
+import Entiteti.EAutomobil;
 import Entiteti.EKorisnik;
+import Entiteti.EModel;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class KorisnikKontrola {
         }
         return korisnici;
     }
+
     public boolean sacuvajKorisnika(EKorisnik k){
         try {
             PrintWriter pw = new PrintWriter(new FileWriter("src/res/korisnici.txt",true), true);

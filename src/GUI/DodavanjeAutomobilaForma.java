@@ -18,6 +18,8 @@ import java.util.List;
 
 public class DodavanjeAutomobilaForma extends Application {
     private  EKorisnik korisnik;
+    // info
+    private List<EModel> sviModeli;
     // Forma
     private ProdavacForma pf;
     private UclanjivanjeForma uf;
@@ -29,7 +31,6 @@ public class DodavanjeAutomobilaForma extends Application {
     private Button sacuvajDugme;
     private ListView modeli;
     private EModel izabran;
-    private List<EModel> sviModeli;
 
     private DodavanjeAutomobilaForma(){
         super();
@@ -67,7 +68,7 @@ public class DodavanjeAutomobilaForma extends Application {
         Scene scene = new Scene(bp);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Biranje modela");
-        primaryStage.showAndWait();
+        primaryStage.show();
     }
 
     public void generisiModele() {
@@ -86,7 +87,7 @@ public class DodavanjeAutomobilaForma extends Application {
         }
 
         if( uf != null) {
-            uf.getModelTF().setText(sviModeli.get(i).toString());
+            uf.getModelTF().setText(uf.getModelTF().getText() + "," + sviModeli.get(i).toString());
         } else if (pf != null){
             EAutomobil a = new EAutomobil(sviModeli.get(i), korisnik);
             boolean dodato = ak.sacuvajAutomobil(a);
