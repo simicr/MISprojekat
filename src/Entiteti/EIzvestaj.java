@@ -10,11 +10,13 @@ public class EIzvestaj {
     private EZakazivanje zakazivanje;
     private EMehanicar mehanicar;
 
+    private int id;
     public EIzvestaj(String opis, Date datum, EZakazivanje zakazivanje, EMehanicar mehanicar) {
         this.opis = opis;
         this.datum = datum;
         this.zakazivanje = zakazivanje;
         this.mehanicar = mehanicar;
+        this.id = this.hashCode();
     }
 
     public String getOpis() {
@@ -33,6 +35,10 @@ public class EIzvestaj {
         return mehanicar;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,11 +54,10 @@ public class EIzvestaj {
 
     @Override
     public String toString() {
-        return "EIzvestaj{" +
-                "opis='" + opis + '\'' +
-                ", datum=" + datum +
-                ", zakazivanje=" + zakazivanje +
-                ", mehanicar=" + mehanicar +
-                '}';
+        return  id +
+                "," + opis  +
+                "," + datum +
+                "," + zakazivanje.getId() +
+                "," + mehanicar.getId();
     }
 }

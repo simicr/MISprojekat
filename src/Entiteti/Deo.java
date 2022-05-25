@@ -8,11 +8,12 @@ public class Deo {
     private double cena;
     private EAutomobil auto;
 
-    public Deo(int sifra, String naziv, double cena, EAutomobil auto) {
+    public Deo(String naziv, double cena, EAutomobil auto) {
         this.sifra = sifra;
         this.naziv = naziv;
         this.cena = cena;
         this.auto = auto;
+        this.sifra = this.hashCode();
     }
 
     public int getSifra() {
@@ -36,21 +37,19 @@ public class Deo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Deo deo = (Deo) o;
-        return sifra == deo.sifra && Double.compare(deo.cena, cena) == 0 && Objects.equals(naziv, deo.naziv) && Objects.equals(auto, deo.auto);
+        return  Double.compare(deo.cena, cena) == 0 && Objects.equals(naziv, deo.naziv) && Objects.equals(auto, deo.auto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sifra, naziv, cena, auto);
+        return Objects.hash(naziv, cena, auto);
     }
 
     @Override
     public String toString() {
-        return "Deo{" +
-                "sifra=" + sifra +
-                ", naziv='" + naziv + '\'' +
-                ", cena=" + cena +
-                ", auto=" + auto +
-                '}';
+        return  sifra +
+                "," + naziv +
+                "," + cena +
+                "," + auto.getBrSasija();
     }
 }

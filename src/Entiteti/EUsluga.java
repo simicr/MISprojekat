@@ -7,7 +7,7 @@ public class EUsluga {
     private String opis;
     private double cena;
     private double trajanje;
-
+    private int id;
     public String getNaziv() {
         return naziv;
     }
@@ -22,6 +22,10 @@ public class EUsluga {
 
     public double getTrajanje() {
         return trajanje;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -39,11 +43,10 @@ public class EUsluga {
 
     @Override
     public String toString() {
-        return "EUsluga{" +
-                "naziv='" + naziv + '\'' +
-                ", opis='" + opis + '\'' +
-                ", cena=" + cena +
-                ", trajanje=" + trajanje +
-                '}';
+        return  id +
+                "," + naziv  +
+                "," + opis  +
+                "," + cena +
+                "," + trajanje;
     }
 }

@@ -7,13 +7,11 @@ public class EAutomobil {
     private EModel model;
     private EKorisnik vlasnik;
 
-    // dodamo zakazivanja ako ostane isto
 
-
-    public EAutomobil(String brSasija, EModel model, EKorisnik vlasnik) {
-        this.brSasija = brSasija;
+    public EAutomobil(EModel model, EKorisnik vlasnik) {
         this.model = model;
         this.vlasnik = vlasnik;
+        this.brSasija = this.hashCode() + "";
     }
 
     public String getBrSasija() {
@@ -38,15 +36,13 @@ public class EAutomobil {
 
     @Override
     public int hashCode() {
-        return Objects.hash(brSasija, model, vlasnik);
+        return Objects.hash(model, vlasnik);
     }
 
     @Override
     public String toString() {
-        return "EAutomobil{" +
-                "brSasija='" + brSasija + '\'' +
-                ", model=" + model +
-                ", vlasnik=" + vlasnik +
-                '}';
+        return  brSasija+
+                "," + model.getId() +
+                "," + vlasnik.getId();
     }
 }

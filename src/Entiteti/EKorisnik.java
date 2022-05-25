@@ -8,6 +8,7 @@ public class EKorisnik {
     private String username;
     private String brTelefona;
     private String jmbg;
+    private int id;
 
     public EKorisnik(String ime, String prezime, String username, String brTelefona, String jmbg) {
         this.ime = ime;
@@ -15,6 +16,7 @@ public class EKorisnik {
         this.username = username;
         this.brTelefona = brTelefona;
         this.jmbg = jmbg;
+        this.id = this.hashCode();
     }
 
     public String getIme() {
@@ -33,6 +35,10 @@ public class EKorisnik {
         return jmbg;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,12 +54,10 @@ public class EKorisnik {
 
     @Override
     public String toString() {
-        return "EKorisnik{" +
-                "ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", username='" + username + '\'' +
-                ", brTelefona='" + brTelefona + '\'' +
-                ", jmbg='" + jmbg + '\'' +
-                '}';
+        return  id + "," + ime +
+                "," + prezime  +
+                "," + username +
+                "," + brTelefona +
+                "," + jmbg;
     }
 }

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 
 public class EZakazivanje {
-    private int sifra;
+    private int id;
     private boolean otkazano;
     private Date datum;
 
@@ -14,17 +14,17 @@ public class EZakazivanje {
     private EAutomobil automobil;
     private EMehanicar mehanicar;
 
-    public EZakazivanje(int sifra, boolean otkazano, Date datum, List<EUsluga> usluge, EAutomobil automobil, EMehanicar mehanicar) {
-        this.sifra = sifra;
+    public EZakazivanje(boolean otkazano, Date datum, List<EUsluga> usluge, EAutomobil automobil, EMehanicar mehanicar) {
         this.otkazano = otkazano;
         this.datum = datum;
         this.usluge = usluge;
         this.automobil = automobil;
         this.mehanicar = mehanicar;
+        this.id = this.hashCode();
     }
 
-    public int getSifra() {
-        return sifra;
+    public int getId() {
+        return id;
     }
 
     public boolean isOtkazano() {
@@ -52,23 +52,25 @@ public class EZakazivanje {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EZakazivanje that = (EZakazivanje) o;
-        return sifra == that.sifra && otkazano == that.otkazano && Objects.equals(datum, that.datum) && Objects.equals(usluge, that.usluge) && Objects.equals(automobil, that.automobil) && Objects.equals(mehanicar, that.mehanicar);
+        return otkazano == that.otkazano && Objects.equals(datum, that.datum) && Objects.equals(usluge, that.usluge) && Objects.equals(automobil, that.automobil) && Objects.equals(mehanicar, that.mehanicar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sifra, otkazano, datum, usluge, automobil, mehanicar);
+        return Objects.hash(otkazano, datum, usluge, automobil, mehanicar);
     }
 
     @Override
     public String toString() {
-        return "EZakazivanje{" +
-                "sifra=" + sifra +
-                ", otkazano=" + otkazano +
-                ", datum=" + datum +
-                ", usluge=" + usluge +
-                ", automobil=" + automobil +
-                ", mehanicar=" + mehanicar +
-                '}';
+        final StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        usluge.stream().map(EUsluga::getId).forEach(x -> sb.append(x + ","));
+        sb.append("]");
+        return  id +
+                "," + otkazano +
+                "," + datum +
+                "," + sb +
+                "," + automobil.getBrSasija() +
+                "," + mehanicar.getId();
     }
 }
