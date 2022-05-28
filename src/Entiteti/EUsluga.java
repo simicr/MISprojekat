@@ -50,12 +50,20 @@ public class EUsluga {
         return Objects.hash(naziv, opis, cena, trajanje);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  id +
                 "," + naziv  +
                 "," + opis  +
                 "," + cena +
                 "," + trajanje;
+    }
+
+    @Override
+    public String toString() {
+        return "naziv='" + naziv + '\'' +
+                ", opis='" + opis + '\'' +
+                ", cena=" + cena +
+                ", trajanje=" + trajanje;
     }
 }

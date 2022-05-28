@@ -31,6 +31,9 @@ public class UclanjivanjeForma extends Application {
     private List<EModel> sacuvani;
     private EModel izabran;
     // Elementi
+
+    private Stage primaryStage;
+    private Scene scena;
     private GridPane gp = new GridPane();
     private Label ime = new Label("Ime");
     private Label prezime = new Label("Prezime");
@@ -53,35 +56,24 @@ public class UclanjivanjeForma extends Application {
         for(int i = 0; i < 6; i++){
             unos[i] = new TextField();
         }
-<<<<<<< HEAD
-=======
-        model = new Button("MODEL");
->>>>>>> 569b6a6f3378233e42a2c781278ed7b33e069bac
         model.setOnAction(e ->
         {
             EModel m = dodajAutomobil();
-            sacuvani.add(m);
         });
-<<<<<<< HEAD
-=======
-
-        sacuvajDugme = new Button("SACUVAJ");
-        sacuvani = new ArrayList<>();
->>>>>>> 569b6a6f3378233e42a2c781278ed7b33e069bac
+        sacuvajDugme.setOnAction(e -> sacuvaj());
+        scena = generisiGui();
     }
     public TextField getModelTF() {
         return unos[5];
     }
     @Override
     public void start(Stage primaryStage) {
-        generisiGui();
-        Scene scena = new Scene(gp, 400, 300);
-        sacuvajDugme.setOnAction(e -> sacuvaj(primaryStage) );
+        this.primaryStage = primaryStage;
         primaryStage.setScene(scena);
         primaryStage.setTitle("Uclanjivanje korisnika");
         primaryStage.show();
     }
-    public void generisiGui(){
+    public Scene generisiGui(){
         gp.add(ime, 0, 0);
         gp.add(prezime, 0,1);
         gp.add(username, 0,2);
@@ -93,8 +85,9 @@ public class UclanjivanjeForma extends Application {
             gp.add(unos[i] ,1 , i);
         }
         unos[5].setEditable(false);
+        return new Scene(gp, 400, 300);
     }
-    public void sacuvaj(Stage primaryStage) {
+    public void sacuvaj() {
 
         boolean nepravilno = Arrays.stream(unos).anyMatch(x ->x.getText().equals(""));
         if(nepravilno) {

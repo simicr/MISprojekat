@@ -1,5 +1,7 @@
 package Entiteti;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -8,13 +10,13 @@ import java.util.Objects;
 public class EZakazivanje {
     private int id;
     private boolean otkazano;
-    private Date datum;
+    private LocalDateTime datum;
 
     private List<EUsluga> usluge;
     private EAutomobil automobil;
     private EMehanicar mehanicar;
 
-    public EZakazivanje(boolean otkazano, Date datum, List<EUsluga> usluge, EAutomobil automobil, EMehanicar mehanicar) {
+    public EZakazivanje(boolean otkazano, LocalDateTime datum, List<EUsluga> usluge, EAutomobil automobil, EMehanicar mehanicar) {
         this.otkazano = otkazano;
         this.datum = datum;
         this.usluge = usluge;
@@ -31,7 +33,7 @@ public class EZakazivanje {
         return otkazano;
     }
 
-    public Date getDatum() {
+    public LocalDateTime getDatum() {
         return datum;
     }
 
@@ -47,6 +49,11 @@ public class EZakazivanje {
         return mehanicar;
     }
 
+    public LocalDateTime doKadaTraje() {
+        long vreme = Math.round(60*usluge.stream().mapToDouble(EUsluga::getTrajanje).sum());
+        return datum.plus(vreme, ChronoUnit.MINUTES);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,11 +67,10 @@ public class EZakazivanje {
         return Objects.hash(otkazano, datum, usluge, automobil, mehanicar);
     }
 
-    @Override
-    public String toString() {
+   public String toCSV() {
         final StringBuilder sb = new StringBuilder();
         sb.append("[");
-        usluge.stream().map(EUsluga::getId).forEach(x -> sb.append(x + ","));
+        usluge.stream().map(EUsluga::getId).forEach(x -> sb.append(x + ";"));
         sb.append("]");
         return  id +
                 "," + otkazano +
@@ -72,5 +78,14 @@ public class EZakazivanje {
                 "," + sb +
                 "," + automobil.getBrSasija() +
                 "," + mehanicar.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "otkazano=" + otkazano +
+                ", datum=" + datum +
+                ", usluge=" + usluge +
+                ", automobil=" + automobil +
+                ", mehanicar=" + mehanicar;
     }
 }

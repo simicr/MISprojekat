@@ -45,11 +45,18 @@ public class Deo {
         return Objects.hash(naziv, cena, auto);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  sifra +
                 "," + naziv +
                 "," + cena +
                 "," + auto.getBrSasija();
+    }
+
+    @Override
+    public String toString() {
+        return "naziv='" + naziv + '\'' +
+                ", cena=" + cena +
+                ", auto=" + auto;
     }
 }

@@ -1,0 +1,4 @@
+-1995266337,ZamenaGuma,zamenjivanje guma,20.0,1.0
+450956995,ZamenaPakni,zamenjivanje pakni,40.0,2.0
+1994238047,ZamenaUlja,zamenjivanje ulja,30.0,4.0
+-1653044441,PoliranjeFarova,poliranje farova na autu,35.0,2.5

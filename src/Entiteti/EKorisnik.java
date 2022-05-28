@@ -52,12 +52,21 @@ public class EKorisnik {
         return Objects.hash(ime, prezime, username, brTelefona, jmbg);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  id + "," + ime +
                 "," + prezime  +
                 "," + username +
                 "," + brTelefona +
                 "," + jmbg;
+    }
+
+    @Override
+    public String toString() {
+        return "ime='" + ime + '\'' +
+                ", prezime='" + prezime + '\'' +
+                ", username='" + username + '\'' +
+                ", brTelefona='" + brTelefona + '\'' +
+                ", jmbg='" + jmbg;
     }
 }

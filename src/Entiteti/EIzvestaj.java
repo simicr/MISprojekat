@@ -52,12 +52,20 @@ public class EIzvestaj {
         return Objects.hash(opis, datum, zakazivanje, mehanicar);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  id +
                 "," + opis  +
                 "," + datum +
                 "," + zakazivanje.getId() +
                 "," + mehanicar.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "opis='" + opis + '\'' +
+                ", datum=" + datum +
+                ", zakazivanje=" + zakazivanje +
+                ", mehanicar=" + mehanicar;
     }
 }

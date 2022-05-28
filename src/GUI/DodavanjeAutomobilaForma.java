@@ -17,29 +17,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DodavanjeAutomobilaForma extends Application {
-    private  EKorisnik korisnik;
-    // info
-    private List<EModel> sviModeli;
+
+
     // Forma
     private ProdavacForma pf;
     private UclanjivanjeForma uf;
     // Kontrola
-    private AutomobilKontrola ak;
+    private AutomobilKontrola ak = new AutomobilKontrola();
     // Elementi
     private Stage primaryStage;
-    private BorderPane bp;
-    private Button sacuvajDugme;
-    private ListView modeli;
+    private Scene scene;
+    private BorderPane bp = new BorderPane();
+    private Button sacuvajDugme = new Button("IZABERI");;
+    private ListView modeli = new ListView();
+    private List<EModel> sviModeli = new ArrayList<>();
     private EModel izabran;
+    private  EKorisnik korisnik;
 
     private DodavanjeAutomobilaForma(){
         super();
-        this.uf = uf;
-        this.sacuvajDugme = new Button("IZABERI");
-        this.ak = new AutomobilKontrola();
-        this.bp = new BorderPane();
-        this.modeli = new ListView();
-        this.sviModeli = new ArrayList<>();
+        sviModeli = ak.vratiSveModele();
+        scene = generisiGUI();
+        sacuvajDugme.setOnAction(e -> dodaj());
     }
     public DodavanjeAutomobilaForma(UclanjivanjeForma uf){
         this();
@@ -62,20 +61,17 @@ public class DodavanjeAutomobilaForma extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        generisiModele();
-        bp.setBottom(sacuvajDugme);
-        sacuvajDugme.setOnAction(e -> dodaj());
-        Scene scene = new Scene(bp);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Biranje modela");
         primaryStage.show();
     }
 
-    public void generisiModele() {
-        modeli = new ListView<>();
-        sviModeli = ak.vratiSveModele();
+    public Scene generisiGUI() {
         sviModeli.stream().forEach(x -> modeli.getItems().add(x));
         bp.setCenter(modeli);
+        bp.setBottom(sacuvajDugme);
+        return new Scene(bp);
     }
 
     public void dodaj() {

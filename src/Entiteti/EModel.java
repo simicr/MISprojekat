@@ -41,11 +41,18 @@ public class EModel {
         return Objects.hash(proizvodjac, naziv, godiste);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  id +
                 "," + proizvodjac +
                 "," + naziv +
                 "," + godiste;
+    }
+
+    @Override
+    public String toString() {
+        return "proizvodjac='" + proizvodjac + '\'' +
+                ", naziv='" + naziv + '\'' +
+                ", godiste=" + godiste;
     }
 }

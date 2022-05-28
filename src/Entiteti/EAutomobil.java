@@ -39,10 +39,16 @@ public class EAutomobil {
         return Objects.hash(model, vlasnik);
     }
 
-    @Override
-    public String toString() {
+
+    public String toCSV() {
         return  brSasija+
                 "," + model.getId() +
                 "," + vlasnik.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "model=" + model +
+                ", vlasnik=" + vlasnik;
     }
 }

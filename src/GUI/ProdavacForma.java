@@ -17,19 +17,23 @@ import java.util.List;
 
 public class ProdavacForma extends Application {
 
+
+
     private List<EKorisnik> info;
     // Druge forme
     private UclanjivanjeForma uf;
     private DodavanjeAutomobilaForma df;
     // Kontrole
-    private KorisnikKontrola kk;
+    private KorisnikKontrola kk = new KorisnikKontrola();
     // Elementi GUIa
-    private HBox dno;
-    private ListView korisnici;
-    private Button dodajK;
-    private Button dodajA;
-    private Button obrisi;
-    private BorderPane bp;
+    private Scene scene;
+    private BorderPane bp = new BorderPane();
+    private HBox dno = new HBox();
+    private ListView korisnici = new ListView<>();
+    private Button dodajK = new Button("DODAJ\nKORISNIKA");
+    private Button dodajA = new Button("OBRISI\nAUTO");
+    private Button obrisi = new Button("DODAJ\nAUTO");
+
 
 
     public static void main(String[] args) {
@@ -38,13 +42,6 @@ public class ProdavacForma extends Application {
 
     public ProdavacForma(){
         super();
-        this.kk = new KorisnikKontrola();
-        this.bp = new BorderPane();
-        this.dno = new HBox();
-        this.korisnici=new ListView();
-        this.dodajK = new Button("DODAJ\nKORISNIKA");
-        this.obrisi = new Button("OBRISI\nAUTO");
-        this.dodajA = new Button("DODAJ\nAUTO");
         this.dodajK.setOnAction(e -> uclaniKorisnika());
         this.dodajA.setOnAction( e -> dodajAutomobil());
     }
@@ -52,7 +49,7 @@ public class ProdavacForma extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Scene scene = scenaZaProdavca();
+        scene = scenaZaProdavca();
         primaryStage.setScene(scene);
         primaryStage.setTitle("Korisnici sistema");
         primaryStage.show();
@@ -73,14 +70,15 @@ public class ProdavacForma extends Application {
         bp.setBottom(dno);
     }
     public void generisiKorisnike(){
-        korisnici = new ListView();
         info = kk.pronadjiSveKorisnike();
         info.stream().forEach(x -> korisnici.getItems().add(x));
         bp.setCenter(korisnici);
     }
 
     public void uclaniKorisnika(){
-        uf = new UclanjivanjeForma(this);
+        if(uf == null){
+             uf = new UclanjivanjeForma(this);
+        }
         uf.start(new Stage());
     }
 
@@ -90,7 +88,9 @@ public class ProdavacForma extends Application {
             new Alert(Alert.AlertType.ERROR,"Nije izabran korisnik").showAndWait();
             return;
         }
-        df = new DodavanjeAutomobilaForma(this, info.get(i));
+        if ( df == null){
+            df = new DodavanjeAutomobilaForma(this, info.get(i));
+        }
         df.start(new Stage());
     }
 

@@ -12,26 +12,22 @@ public class AutomobilKontrola {
 
     public List<EModel> vratiSveModele() {
         List<EModel> modeli = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("src/res/model.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("src/res/model.txt"));) {
+
             String linija;
             while ((linija = br.readLine()) != null) {
                 String[] tokeni = linija.split(",");
                 modeli.add(new EModel(tokeni[1], tokeni[2], Integer.parseInt(tokeni[3])));
             }
 
-            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return modeli;
     }
     public boolean sacuvajAutomobil(EAutomobil a){
-        try {
-            PrintWriter pw = new PrintWriter(new FileWriter("src/res/automobili.txt", true),true);
-            pw.println(a);
-            pw.close();
-
+        try(PrintWriter pw = new PrintWriter(new FileWriter("src/res/automobili.txt", true),true);){
+            pw.println(a.toCSV());
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -41,8 +37,8 @@ public class AutomobilKontrola {
 
     public List<EAutomobil> vratiSveAutomobile(EKorisnik korisnik) {
         List<EAutomobil> automobili = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("res/automobili.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("src/res/automobili.txt"));) {
+
             String linija;
             while ((linija = br.readLine()) != null) {
                 String[] tokeni = linija.split(",");
@@ -55,17 +51,16 @@ public class AutomobilKontrola {
                 }
             }
 
-            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return automobili;
     }
 
-    private EModel nadjiModel(int idModela) {
+    public EModel nadjiModel(int idModela) {
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("res/model.txt"));
+        try  (BufferedReader br = new BufferedReader(new FileReader("src/res/model.txt"));) {
+
             String linija;
             while ((linija = br.readLine()) != null) {
                 String[] tokeni = linija.split(",");
@@ -78,7 +73,6 @@ public class AutomobilKontrola {
 
             }
 
-            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
