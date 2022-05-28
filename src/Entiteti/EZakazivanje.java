@@ -70,7 +70,11 @@ public class EZakazivanje {
    public String toCSV() {
         final StringBuilder sb = new StringBuilder();
         sb.append("[");
-        usluge.stream().map(EUsluga::getId).forEach(x -> sb.append(x + ";"));
+        if(usluge.size() == 1){
+            sb.append(usluge.get(0).getId());
+        } else {
+            usluge.stream().map(EUsluga::getId).forEach(x -> sb.append(x + ";"));
+        }
         sb.append("]");
         return  id +
                 "," + otkazano +

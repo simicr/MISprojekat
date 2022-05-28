@@ -191,7 +191,7 @@ public class ZakazivanjeForma extends Application {
 
         EMehanicar mehanicar = zk.vratiSlobodnogMehanicara(odKad, doKad);
         if(mehanicar == null){
-            new Alert(Alert.AlertType.ERROR, "Nema slobodnog mehanicara za ovaj termin izaberite drugi");
+            new Alert(Alert.AlertType.ERROR, "Nema slobodnog mehanicara za ovaj termin izaberite drugi").showAndWait();
             return;
         }
 

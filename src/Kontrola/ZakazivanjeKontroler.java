@@ -38,23 +38,23 @@ public class ZakazivanjeKontroler {
             while ((linija = br.readLine())!= null){
                String[] tokeni = linija.split(",");
                LocalDateTime pocetak = LocalDateTime.parse(tokeni[2]);
+               LocalDateTime kraj = trajaceDo(pocetak, tokeni[3]);
                 if (Integer.parseInt(tokeni[5]) == mehanicar.getId()){
-                    if(pocetak.compareTo(odKada) <= 0
-                                    && trajaceDo(pocetak, tokeni[3]).compareTo(doKada) >= 0){
-                        return true;
+                    if ((kraj.compareTo(odKada) * kraj.compareTo(doKada) <= 0)
+                            || (pocetak.compareTo(odKada) * pocetak.compareTo(doKada) <= 0)) {
+                        return false;
                     }
                 }
             }
 
-            System.out.println("Izasao sam iz petlje");
         } catch (IOException e){
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     private LocalDateTime trajaceDo(LocalDateTime pocetak, String obaveze){
-        String[] infoObaveza = obaveze.substring(2, obaveze.length() -1).split(";");
+        String[] infoObaveza = obaveze.substring(1, obaveze.length() -1).split(";");
 
         long minuta = Math.round(60*Arrays.stream(infoObaveza).mapToDouble( x->
                 trajanje(Integer.parseInt(x))
