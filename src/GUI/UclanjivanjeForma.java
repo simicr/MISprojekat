@@ -28,7 +28,6 @@ public class UclanjivanjeForma extends Application {
     private KorisnikKontrola kk = new KorisnikKontrola();
     private AutomobilKontrola ak = new AutomobilKontrola();
     //info
-    private List<EModel> sacuvani;
     private EModel izabran;
     // Elementi
 
@@ -52,16 +51,16 @@ public class UclanjivanjeForma extends Application {
 
     public UclanjivanjeForma(ProdavacForma odakle){
         super();
-        pf = odakle;
+        this.pf = odakle;
         for(int i = 0; i < 6; i++){
             unos[i] = new TextField();
         }
         model.setOnAction(e ->
         {
-            EModel m = dodajAutomobil();
+            this.izabran = dodajAutomobil();
         });
-        sacuvajDugme.setOnAction(e -> sacuvaj());
-        scena = generisiGui();
+        this.sacuvajDugme.setOnAction(e -> sacuvaj());
+        this.scena = generisiGui();
     }
     public TextField getModelTF() {
         return unos[5];
@@ -94,13 +93,11 @@ public class UclanjivanjeForma extends Application {
             new Alert(Alert.AlertType.ERROR, "Nisu unesena sva polja").showAndWait();
             return;
         }
+
         EKorisnik k = new EKorisnik(unos[0].getText(), unos[1].getText(), unos[2].getText(), unos[4].getText(), unos[3].getText());
         boolean korisnikDodat = kk.sacuvajKorisnika(k);
-        boolean automobilDodat = true;
+        boolean automobilDodat = ak.sacuvajAutomobil(new EAutomobil(izabran, k));
 
-        for(EModel m: sacuvani) {
-            automobilDodat = automobilDodat && ak.sacuvajAutomobil(new EAutomobil(m, k));
-        }
         if(korisnikDodat && automobilDodat){
             new Alert(Alert.AlertType.INFORMATION, "Korisnik je uspesno sacuvan").showAndWait();
         } else {

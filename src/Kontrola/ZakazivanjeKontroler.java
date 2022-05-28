@@ -82,7 +82,7 @@ public class ZakazivanjeKontroler {
     public boolean sacuvajZakazivanje(EZakazivanje z) {
         try(PrintWriter pw = new PrintWriter(new FileWriter("src/res/zakazivanja.txt",true), true);){
             pw.println(z.toCSV());
-        } catch (IOException e){
+        } catch (IOException | NullPointerException e){
             e.printStackTrace();
             return false;
         }

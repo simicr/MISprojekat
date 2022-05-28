@@ -28,7 +28,7 @@ public class AutomobilKontrola {
     public boolean sacuvajAutomobil(EAutomobil a){
         try(PrintWriter pw = new PrintWriter(new FileWriter("src/res/automobili.txt", true),true);){
             pw.println(a.toCSV());
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             return false;
         }

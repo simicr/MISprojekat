@@ -31,8 +31,8 @@ public class ProdavacForma extends Application {
     private HBox dno = new HBox();
     private ListView korisnici = new ListView<>();
     private Button dodajK = new Button("DODAJ\nKORISNIKA");
-    private Button dodajA = new Button("OBRISI\nAUTO");
-    private Button obrisi = new Button("DODAJ\nAUTO");
+    private Button dodajA = new Button("DODAJ\nAUTO");
+    private Button obrisi = new Button("OBRISI\nAUTO");
 
 
 
@@ -71,6 +71,7 @@ public class ProdavacForma extends Application {
     }
     public void generisiKorisnike(){
         info = kk.pronadjiSveKorisnike();
+        korisnici.getItems().clear();
         info.stream().forEach(x -> korisnici.getItems().add(x));
         bp.setCenter(korisnici);
     }

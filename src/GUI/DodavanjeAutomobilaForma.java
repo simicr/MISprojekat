@@ -64,7 +64,7 @@ public class DodavanjeAutomobilaForma extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Biranje modela");
-        primaryStage.show();
+        primaryStage.showAndWait();
     }
 
     public Scene generisiGUI() {
@@ -83,7 +83,7 @@ public class DodavanjeAutomobilaForma extends Application {
         }
 
         if( uf != null) {
-            uf.getModelTF().setText(uf.getModelTF().getText() + "," + sviModeli.get(i).toString());
+            uf.getModelTF().setText(sviModeli.get(i).toString());
         } else if (pf != null){
             EAutomobil a = new EAutomobil(sviModeli.get(i), korisnik);
             boolean dodato = ak.sacuvajAutomobil(a);

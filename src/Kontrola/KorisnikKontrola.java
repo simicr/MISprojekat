@@ -28,7 +28,7 @@ public class KorisnikKontrola {
     public boolean sacuvajKorisnika(EKorisnik k){
         try (PrintWriter pw = new PrintWriter(new FileWriter("src/res/korisnici.txt",true), true);) {
             pw.println(k.toCSV());
-        } catch (IOException e){
+        } catch (IOException | NullPointerException e){
             e.printStackTrace();
             return false;
         }
