@@ -20,6 +20,7 @@ public class ListaAutomobilaForma extends Application {
     private AutomobilKontrola ak = new AutomobilKontrola();
 
     private Stage primaryStage;
+    private Scene scene;
     private EKorisnik korisnik;
     private ListView automobiliKorisnika = new ListView();
     private List<EAutomobil> automobili = new ArrayList<>();
@@ -35,11 +36,11 @@ public class ListaAutomobilaForma extends Application {
         this.korisnik = korisnik;
         automobili = ak.vratiSveAutomobile(korisnik);
         automobili.stream().forEach(x -> automobiliKorisnika.getItems().add(x));
-
-
         izaberiDugme.setOnAction( e -> {
             izaberi();
         });
+
+        scene = generisiGui();
     }
 
     public EAutomobil getIzabran(){
@@ -49,7 +50,6 @@ public class ListaAutomobilaForma extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        Scene scene = generisiGui();
         primaryStage.setScene(scene);
         primaryStage.setTitle("Biranje automobila");
         primaryStage.showAndWait();
